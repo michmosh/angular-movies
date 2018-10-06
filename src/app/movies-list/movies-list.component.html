@@ -1,0 +1,13 @@
+<div class="row">
+  <div *ngFor="let movie of movies;let i = index" class="col-lg-3 col-md-6 col-sm-12">
+    <div class="card">
+        <img class="card-img-top" src="{{movie.Poster}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"> {{movie.Title | titlecase | specialchars}}</h5>
+          <p class="card-text">Year: {{movie.Year}}</p>
+          <button  class="btn btn-info" (click)="editMovie(movie.imdbID , i)">Edit</button>
+          <button class="btn btn-danger" (click)="openDeleteMovie(movie.imdbID , i)">Delete</button>
+        </div>
+    </div>
+  </div>
+</div>
