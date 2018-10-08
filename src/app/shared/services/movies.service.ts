@@ -35,7 +35,7 @@ export class MoviesService {
 
   addMovie(movie?){
    let imdbID = Math.floor(Math.random() * 1000); 
-   movie.imdbID = imdbID;
+   movie.imdbID = movie.id = imdbID;
    this.movieEmitter.emit({action:"add" , movie:movie});
   }
 

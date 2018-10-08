@@ -1,4 +1,5 @@
 export class Movie{
+    id:number;
     imdbID?:string; 
     Type:string;
     Poster:string;
