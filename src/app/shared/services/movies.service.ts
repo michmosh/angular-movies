@@ -10,7 +10,7 @@ export class MoviesService {
   initialMovieTitle:string = "dog";
   deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
   movieEmitter: EventEmitter<any> = new EventEmitter<any>();
-  moviesArray:Movie[] = [];
+  moviesArray:Array<Movie> ;
   constructor(private http : HttpClient) { }
 
   getMovies():Observable<any>{
@@ -33,7 +33,7 @@ export class MoviesService {
   }
 
   addMovie(movie?){
-   let imdbID = Math.floor(Math.random() * 1000); 
+   let imdbID = Math.floor(Math.random() * 1000); // mock id from server 
    movie.imdbID = movie.id = imdbID;
    this.movieEmitter.emit({action:"add" , movie:movie});
   }
@@ -52,7 +52,7 @@ export class MoviesService {
     this.deleteEmitter.emit(serverResponse);
   }
 
-  checkExistingTitle(movie:any){
+  checkExistingTitle(movie:any){ // check server for movie title 
     let valid = false;
     for(let i = 0 ; i < this.moviesArray.length ; i++){
       if(this.moviesArray[i].Title.toLowerCase() === movie.Title.toLowerCase()){

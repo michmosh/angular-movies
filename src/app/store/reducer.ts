@@ -19,9 +19,9 @@ export function reducer(state=initialState, action: MovieActions) {
         case MovieActionsTypes.EDIT_MOVIE: 
             let editedMovie = action.payload  ;
             let indexToEdit =  state.findIndex((el)=>el.imdbID == editedMovie.imdbID);
-            Object.assign(state[indexToEdit], editedMovie); 
+            Object.assign(state[indexToEdit], editedMovie);  // use object assign so image property doesnt change
             return state;
-            
+
         default: 
             return state
     }
