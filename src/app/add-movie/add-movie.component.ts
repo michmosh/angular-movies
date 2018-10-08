@@ -34,14 +34,15 @@ export class AddMovieComponent implements OnInit {
     const smallDialogSubscription = this.isExtraSmall.subscribe(size => { 
       if (size.matches) {
         this.matModalRef.updateSize('80vw');
-             } else {
-              this.matModalRef.updateSize('50vw');
-           }
-         });
+      } 
+      else {
+        this.matModalRef.updateSize('50vw');
+      }
+    });
      
-         this.matModalRef.afterClosed().subscribe(result => {
-            smallDialogSubscription.unsubscribe();
-        });
+    this.matModalRef.afterClosed().subscribe(result => {
+      smallDialogSubscription.unsubscribe();
+    });
   }
 
 }

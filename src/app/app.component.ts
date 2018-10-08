@@ -9,9 +9,7 @@ import { Observable } from 'rxjs/Observable';
 export class AppComponent implements OnInit {
   title = 'app';
   movies:Observable<any>
-  constructor(private store:Store<any>){
-
-  }
+  constructor(private store:Store<any>){}
 
   ngOnInit(){
     this.store.select('movie').subscribe(movies=>{
