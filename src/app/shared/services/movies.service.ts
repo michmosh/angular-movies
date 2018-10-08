@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http' ;
 import {Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {Movie} from '../model/movie.model';
-import { Subject } from 'rxjs/Rx';
 @Injectable()
 export class MoviesService {
   url: string = "http://www.omdbapi.com/";
@@ -43,11 +42,14 @@ export class MoviesService {
     let index = this.moviesArray.findIndex(el=>{
       return el.imdbID ===  imdbID
     })
+    movie.imdbID = imdbID;
     this.movieEmitter.emit({action:"edit" , movie:movie , index : index});
   }
 
   deleteMovie(id?:string):void{
-    this.deleteEmitter.emit({success:true , deletedId : id})
+    // send and recieve delete response from server 
+    let serverResponse = {success:true , deletedId : id}
+    this.deleteEmitter.emit(serverResponse);
   }
 
   checkExistingTitle(movie:any){

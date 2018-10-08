@@ -14,6 +14,7 @@ export class AddMovieComponent implements OnInit {
               private dialog: MatDialog) { }
 
   ngOnInit() {
+    
   }
 
   openAddDialog(){

@@ -4,30 +4,38 @@ import {Movie} from '../shared/model/movie.model';
 import {MatDialog, MatDialogRef } from '@angular/material';
 import {MovieFormTemplateComponent} from '../templates/movie-form.template/movie-form.template.component' ; 
 import { DeleteFormTemplateComponent } from '../templates/delete-form.template/delete-form.template.component';
+import { Store} from '@ngrx/store';
+import * as MovieActions from '../store/actions';
+import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'movies-list',
   templateUrl: './movies-list.component.html',
   styleUrls: ['./movies-list.component.css']
 })
 export class MoviesListComponent implements OnInit {
-  movies:Array<Movie> = [];
+  movies:Observable<Movie> ;
   selectedMovie : Movie ; 
   matModalRef : MatDialogRef<MovieFormTemplateComponent>;
   deleteModalRef : MatDialogRef<DeleteFormTemplateComponent>
   constructor(private movieService : MoviesService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog , 
+              private store:Store<any>) { }
 
   ngOnInit():void {
+    this.store.select('movie').subscribe((movies)=>{
+      this.movies = movies;
+    })
+
     this.getMovies();
     this.movieService.movieEmitter.subscribe(res=>{
       if(res.action === "add" ) return  this.addMovieToList(res.movie);
-      if(res.action === "edit" ) return this.editMovieToList(res)
+      if(res.action === "edit" ) return this.editMovieToList(res.movie)
     });
   }
 
   getMovies():void{
     this.movieService.getMovies().subscribe(res=>{
-      this.movies = res.Search; 
+      this.store.dispatch(new MovieActions.GetMovies(res.Search)); 
     })
   }
 
@@ -40,17 +48,17 @@ export class MoviesListComponent implements OnInit {
 
   deleteMovie(index){
     this.movieService.deleteEmitter.subscribe(res=>{
-      this.movies.splice(index ,1 );
+      this.store.dispatch(new MovieActions.RemoveMovie(this.movies[index]))
     })
   }
 
   addMovieToList(movie){
-    this.movies.push(movie);
+    this.store.dispatch(new MovieActions.AddMovie(movie));
     this.dialog.closeAll();
   }
 
   editMovieToList(movie){
-    Object.assign(this.movies[movie.index] ,movie.movie ) 
+   this.store.dispatch(new MovieActions.EditMovie(movie));
     this.dialog.closeAll();
   }
 
