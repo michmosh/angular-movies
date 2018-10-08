@@ -7,6 +7,7 @@ import { DeleteFormTemplateComponent } from '../templates/delete-form.template/d
 import { Store} from '@ngrx/store';
 import * as MovieActions from '../store/actions';
 import { Observable } from 'rxjs/Observable';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 @Component({
   selector: 'movies-list',
   templateUrl: './movies-list.component.html',
@@ -17,8 +18,10 @@ export class MoviesListComponent implements OnInit {
   selectedMovie : Movie ; 
   matModalRef : MatDialogRef<MovieFormTemplateComponent>;
   deleteModalRef : MatDialogRef<DeleteFormTemplateComponent>
+  isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
   constructor(private movieService : MoviesService,
-              private dialog: MatDialog , 
+              private dialog: MatDialog ,
+              private breakpointObserver: BreakpointObserver , 
               private store:Store<any>) { }
 
   ngOnInit():void {
@@ -84,6 +87,20 @@ export class MoviesListComponent implements OnInit {
         movie:this.selectedMovie
       }
     })
+    
+    // change size of material dialog on extra small devices
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => { 
+      if (size.matches) {
+        this.matModalRef.updateSize('80vw');
+             } else {
+              this.matModalRef.updateSize('50vw');
+           }
+         });
+     
+         this.matModalRef.afterClosed().subscribe(result => {
+            smallDialogSubscription.unsubscribe();
+        });
+    
   }
 
 }
