@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http' ;
 import {Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {Movie} from '../model/movie.model';
+import { Store , select } from '@ngrx/store';
 @Injectable()
 export class MoviesService {
   url: string = "http://www.omdbapi.com/";
@@ -11,12 +12,12 @@ export class MoviesService {
   deleteEmitter: EventEmitter<any> = new EventEmitter<any>();
   movieEmitter: EventEmitter<any> = new EventEmitter<any>();
   moviesArray:Array<Movie> ;
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient , private store :Store<any>) {}
 
   getMovies():Observable<any>{
+    this.store.select('movie').subscribe((movies)=> this.moviesArray = movies);
     return this.http.get<Array<Movie>>(`${this.url}?apikey=${this.apiKey}&s=${this.initialMovieTitle}`)
       .map(res=>{
-        this.moviesArray = res['Search'];
         return res; 
       })
   }
@@ -28,7 +29,6 @@ export class MoviesService {
       }else{
         return res;
       }
-      
     })
   }
 

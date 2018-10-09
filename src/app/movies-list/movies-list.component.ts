@@ -96,7 +96,6 @@ export class MoviesListComponent implements OnInit {
               this.matModalRef.updateSize('50vw');
            }
          });
-     
          this.matModalRef.afterClosed().subscribe(result => {
             smallDialogSubscription.unsubscribe();
         });
