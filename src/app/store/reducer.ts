@@ -13,7 +13,7 @@ export function reducer(state=initialState, action: MovieActions) {
             return [...state, action.payload] ;
 
         case MovieActionsTypes.REMOVE_MOVIE: 
-            let movie = action.payload   
+            let movie = action.payload ;
             return state.filter((el)=>el.imdbID != movie.imdbID);
         
         case MovieActionsTypes.EDIT_MOVIE: 

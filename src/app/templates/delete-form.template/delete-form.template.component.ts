@@ -17,7 +17,7 @@ export class DeleteFormTemplateComponent implements OnInit {
   }
 
   deleteMovie(){
-    this.movieService.deleteMovie(this.data.imdbID);
+    this.movieService.deleteMovie(this.data.movie);
     this.close();
   }
 

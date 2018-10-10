@@ -34,6 +34,9 @@ export class MoviesListComponent implements OnInit {
       if(res.action === "add" ) return  this.addMovieToList(res.movie);
       if(res.action === "edit" ) return this.editMovieToList(res.movie)
     });
+    this.movieService.deleteEmitter.subscribe(res=>{
+    this.deleteMovie(res.movie);
+    })
   }
 
   getMovies():void{
@@ -49,10 +52,8 @@ export class MoviesListComponent implements OnInit {
     })
   }
 
-  deleteMovie(index){
-    this.movieService.deleteEmitter.subscribe(res=>{
-      this.store.dispatch(new MovieActions.RemoveMovie(this.movies[index]))
-    })
+  deleteMovie(movie){
+    this.store.dispatch(new MovieActions.RemoveMovie(movie));
   }
 
   addMovieToList(movie){
@@ -66,14 +67,14 @@ export class MoviesListComponent implements OnInit {
   }
 
   openDeleteMovie(imdbID:string, index:number){
-    this.deleteMovie(index);
+   
     this.deleteModalRef = this.dialog.open(DeleteFormTemplateComponent , {
       hasBackdrop: true,
       width:'50vw',
       data:{
         title:"Delete",
         imdbID:imdbID,
-        movieName:this.movies[index].Title
+        movie:this.movies[index]
       }
     })
   }

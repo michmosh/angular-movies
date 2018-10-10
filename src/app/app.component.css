@@ -21,16 +21,6 @@
     margin-top: 4px;
   }
   
-.navbar-toggler .icon-bar:nth-child(2) {
-    width: 16px;
-    transition: ease all .2s;
-  }
-
-.navbar-toggler:hover>.icon-bar:nth-child(2) {
-    width: 22px;
-    transition: ease all .2s;
-  }
-
   .navbar-toggler:active>.icon-bar:nth-child(2) {
     width: 22px;
     transition: ease all .2s;

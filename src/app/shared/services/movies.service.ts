@@ -46,9 +46,9 @@ export class MoviesService {
     this.movieEmitter.emit({action:"edit" , movie:movie , index : index});
   }
 
-  deleteMovie(id?:string):void{
+  deleteMovie(movie:Movie):void{
     // send and recieve delete response from server 
-    let serverResponse = {success:true , deletedId : id}
+    let serverResponse = {success:true , movie : movie};
     this.deleteEmitter.emit(serverResponse);
   }
 
